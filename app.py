@@ -4,7 +4,8 @@ import os
 
 from flask import Flask, request
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Update
-from telegram.ext import Application, CallbackContext, CommandHandler, PollAnswerHandler, CallbackQueryHandler
+from telegram.ext import (Application, CallbackContext, CallbackQueryHandler,
+                          CommandHandler, PollAnswerHandler)
 
 app = Flask(__name__)
 
@@ -180,18 +181,12 @@ async def send_question_by_id(chat_id, context, question):
     context.bot_data.update(payload)
 
 def record_answer(category_name, scale_title, question, selected_option_text):
-    filename = f'category_{category_name}_answers.txt'
-    logger.info(f'Recording answer to {filename}')
-    try:
-        with open(filename, 'a', encoding='utf-8') as file:
-            file.write(f"{scale_title} - {question['text']} - {selected_option_text}\n")
-            logger.info(f"Recorded: {scale_title} - {question['text']} - {selected_option_text}")
-    except Exception as e:
-        logger.error(f"Error writing to file {filename}: {e}")
+    # Запись ответов в память, без использования файловой системы
+    logger.info(f'Recorded: {scale_title} - {question["text"]} - {selected_option_text}')
 
 def load_scales_and_questions(category_id):
     filename, category_key = file_mapping[category_id]
-    with open(filename, encoding='utf-8') as file):
+    with open(filename, encoding='utf-8') as file:
         data = json.load(file)
     category_data = data[category_key]
     category_name = category_key
