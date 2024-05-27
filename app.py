@@ -181,7 +181,6 @@ async def send_question_by_id(chat_id, context, question):
     context.bot_data.update(payload)
 
 def record_answer(category_name, scale_title, question, selected_option_text):
-    # Запись ответов в память, без использования файловой системы
     logger.info(f'Recorded: {scale_title} - {question["text"]} - {selected_option_text}')
 
 def load_scales_and_questions(category_id):
