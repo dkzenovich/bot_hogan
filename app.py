@@ -4,8 +4,7 @@ import os
 
 from flask import Flask, request
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Update
-from telegram.ext import (Application, CallbackContext, CallbackQueryHandler,
-                          CommandHandler, PollAnswerHandler)
+from telegram.ext import Application, CallbackContext, CommandHandler, PollAnswerHandler, CallbackQueryHandler
 
 app = Flask(__name__)
 
@@ -16,18 +15,15 @@ TOKEN = os.getenv('TELEGRAM_TOKEN')
 WEBHOOK_URL = f'{os.getenv("WEBHOOK_URL")}/{TOKEN}'
 
 # Setting up the logger
-log_directory = os.getcwd()
-log_path = os.path.join(log_directory, "app.log")
 logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
     handlers=[
-        logging.FileHandler(log_path, encoding='utf-8'),
-        logging.StreamHandler()
+        logging.StreamHandler()  # Только запись в консоль
     ]
 )
 logger = logging.getLogger(__name__)
-logger.info("This log will be written in the current directory.")
+logger.info("This log will be written in the console.")
 
 file_mapping = {
     '1': ('bot_Hogan/hpi.json', 'categories_hpi'),
@@ -195,7 +191,7 @@ def record_answer(category_name, scale_title, question, selected_option_text):
 
 def load_scales_and_questions(category_id):
     filename, category_key = file_mapping[category_id]
-    with open(filename, encoding='utf-8') as file:
+    with open(filename, encoding='utf-8') as file):
         data = json.load(file)
     category_data = data[category_key]
     category_name = category_key
