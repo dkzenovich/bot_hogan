@@ -5,7 +5,8 @@ import os
 from flask import Flask, request
 from telegram import Update
 from telegram.ext import (Application, CallbackContext, CallbackQueryHandler,
-                          CommandHandler, PollAnswerHandler)
+                          CommandHandler, InlineKeyboardButton,
+                          InlineKeyboardMarkup, PollAnswerHandler)
 
 app = Flask(__name__)
 
